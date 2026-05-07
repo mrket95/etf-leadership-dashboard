@@ -1,0 +1,241 @@
+{
+  "benchmark": "VT",
+  "start_date": "2018-01-01",
+  "data_source_order": [
+    "stooq",
+    "yahoo"
+  ],
+  "tickers": [
+    {
+      "ticker": "VT",
+      "name": "Vanguard Total World Stock ETF",
+      "group": "Global Benchmark",
+      "role": "Benchmark"
+    },
+    {
+      "ticker": "ACWI",
+      "name": "iShares MSCI ACWI ETF",
+      "group": "Global Benchmark",
+      "role": "Benchmark"
+    },
+    {
+      "ticker": "SPY",
+      "name": "SPDR S&P 500 ETF",
+      "group": "US Benchmark",
+      "role": "Benchmark"
+    },
+    {
+      "ticker": "QQQ",
+      "name": "Invesco QQQ Trust / Nasdaq 100",
+      "group": "US Style",
+      "role": "Growth / Mega-cap"
+    },
+    {
+      "ticker": "IWM",
+      "name": "iShares Russell 2000 ETF",
+      "group": "US Style",
+      "role": "Small-cap"
+    },
+    {
+      "ticker": "RSP",
+      "name": "Invesco S&P 500 Equal Weight ETF",
+      "group": "US Style",
+      "role": "Equal-weight"
+    },
+    {
+      "ticker": "XLK",
+      "name": "Technology Select Sector SPDR",
+      "group": "US Sector",
+      "role": "Growth / Technology"
+    },
+    {
+      "ticker": "XLF",
+      "name": "Financial Select Sector SPDR",
+      "group": "US Sector",
+      "role": "Cyclical / Financials"
+    },
+    {
+      "ticker": "XLV",
+      "name": "Health Care Select Sector SPDR",
+      "group": "US Sector",
+      "role": "Defensive / Healthcare"
+    },
+    {
+      "ticker": "XLI",
+      "name": "Industrial Select Sector SPDR",
+      "group": "US Sector",
+      "role": "Cyclical / Industrials"
+    },
+    {
+      "ticker": "XLY",
+      "name": "Consumer Discretionary Select Sector SPDR",
+      "group": "US Sector",
+      "role": "Cyclical / Consumer"
+    },
+    {
+      "ticker": "XLP",
+      "name": "Consumer Staples Select Sector SPDR",
+      "group": "US Sector",
+      "role": "Defensive / Staples"
+    },
+    {
+      "ticker": "XLE",
+      "name": "Energy Select Sector SPDR",
+      "group": "US Sector",
+      "role": "Cyclical / Energy"
+    },
+    {
+      "ticker": "XLB",
+      "name": "Materials Select Sector SPDR",
+      "group": "US Sector",
+      "role": "Cyclical / Materials"
+    },
+    {
+      "ticker": "XLU",
+      "name": "Utilities Select Sector SPDR",
+      "group": "US Sector",
+      "role": "Defensive / Utilities"
+    },
+    {
+      "ticker": "XLRE",
+      "name": "Real Estate Select Sector SPDR",
+      "group": "US Sector",
+      "role": "Rate-sensitive / REITs"
+    },
+    {
+      "ticker": "XLC",
+      "name": "Communication Services Select Sector SPDR",
+      "group": "US Sector",
+      "role": "Communication"
+    },
+    {
+      "ticker": "SMH",
+      "name": "VanEck Semiconductor ETF",
+      "group": "Industry",
+      "role": "Semiconductors"
+    },
+    {
+      "ticker": "KRE",
+      "name": "SPDR S&P Regional Banking ETF",
+      "group": "Industry",
+      "role": "Regional Banks"
+    },
+    {
+      "ticker": "IYT",
+      "name": "iShares U.S. Transportation ETF",
+      "group": "Industry",
+      "role": "Transportation"
+    },
+    {
+      "ticker": "ITB",
+      "name": "iShares U.S. Home Construction ETF",
+      "group": "Industry",
+      "role": "Homebuilders"
+    },
+    {
+      "ticker": "XHB",
+      "name": "SPDR S&P Homebuilders ETF",
+      "group": "Industry",
+      "role": "Homebuilders"
+    },
+    {
+      "ticker": "IBB",
+      "name": "iShares Biotechnology ETF",
+      "group": "Industry",
+      "role": "Biotech"
+    },
+    {
+      "ticker": "XBI",
+      "name": "SPDR S&P Biotech ETF",
+      "group": "Industry",
+      "role": "Biotech Equal-weight"
+    },
+    {
+      "ticker": "KWEB",
+      "name": "KraneShares CSI China Internet ETF",
+      "group": "Industry / China",
+      "role": "China Internet"
+    },
+    {
+      "ticker": "JETS",
+      "name": "U.S. Global Jets ETF",
+      "group": "Industry",
+      "role": "Airlines"
+    },
+    {
+      "ticker": "OIH",
+      "name": "VanEck Oil Services ETF",
+      "group": "Industry",
+      "role": "Oil Services"
+    },
+    {
+      "ticker": "VEA",
+      "name": "Vanguard FTSE Developed Markets ETF",
+      "group": "Global Region",
+      "role": "Developed ex-US"
+    },
+    {
+      "ticker": "VXUS",
+      "name": "Vanguard Total International Stock ETF",
+      "group": "Global Region",
+      "role": "Ex-US"
+    },
+    {
+      "ticker": "EZU",
+      "name": "iShares MSCI Eurozone ETF",
+      "group": "Global Region",
+      "role": "Eurozone"
+    },
+    {
+      "ticker": "FEZ",
+      "name": "SPDR EURO STOXX 50 ETF",
+      "group": "Global Region",
+      "role": "Eurozone Large-cap"
+    },
+    {
+      "ticker": "EWJ",
+      "name": "iShares MSCI Japan ETF",
+      "group": "Global Region",
+      "role": "Japan"
+    },
+    {
+      "ticker": "EWY",
+      "name": "iShares MSCI South Korea ETF",
+      "group": "Global Region",
+      "role": "Korea"
+    },
+    {
+      "ticker": "EWZ",
+      "name": "iShares MSCI Brazil ETF",
+      "group": "Global Region",
+      "role": "Brazil"
+    },
+    {
+      "ticker": "EEM",
+      "name": "iShares MSCI Emerging Markets ETF",
+      "group": "Global Region",
+      "role": "Emerging Markets"
+    },
+    {
+      "ticker": "FXI",
+      "name": "iShares China Large-Cap ETF",
+      "group": "Global Region",
+      "role": "China Large-cap"
+    },
+    {
+      "ticker": "MCHI",
+      "name": "iShares MSCI China ETF",
+      "group": "Global Region",
+      "role": "China Broad"
+    }
+  ],
+  "dashboard": {
+    "default_months": 6,
+    "default_chart_mode": "normalized_close",
+    "all_traces_visible_by_default": true
+  },
+  "notes": {
+    "high_low_rule": "Period high uses max daily High; period low uses min daily Low. Worst drawdown uses each day's Low divided by prior running High.",
+    "price_return_note": "This is price/OHLC analysis, not total return. Dividends are not reinvested."
+  }
+}
