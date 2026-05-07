@@ -1,0 +1,150 @@
+[2026-05-07 05:18:28] Downloading VT from stooq
+[2026-05-07 05:18:29] VT stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:29] Downloading VT from yahoo
+[2026-05-07 05:18:30] Downloading ACWI from stooq
+[2026-05-07 05:18:31] ACWI stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:31] Downloading ACWI from yahoo
+[2026-05-07 05:18:31] Downloading SPY from stooq
+[2026-05-07 05:18:32] SPY stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:32] Downloading SPY from yahoo
+[2026-05-07 05:18:32] Downloading QQQ from stooq
+[2026-05-07 05:18:33] QQQ stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:33] Downloading QQQ from yahoo
+[2026-05-07 05:18:33] Downloading IWM from stooq
+[2026-05-07 05:18:34] IWM stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:34] Downloading IWM from yahoo
+[2026-05-07 05:18:35] Downloading RSP from stooq
+[2026-05-07 05:18:35] RSP stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:35] Downloading RSP from yahoo
+[2026-05-07 05:18:36] Downloading XLK from stooq
+[2026-05-07 05:18:36] XLK stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:37] Downloading XLK from yahoo
+[2026-05-07 05:18:37] Downloading XLF from stooq
+[2026-05-07 05:18:38] XLF stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:38] Downloading XLF from yahoo
+[2026-05-07 05:18:38] Downloading XLV from stooq
+[2026-05-07 05:18:39] XLV stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:39] Downloading XLV from yahoo
+[2026-05-07 05:18:40] Downloading XLI from stooq
+[2026-05-07 05:18:41] XLI stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:41] Downloading XLI from yahoo
+[2026-05-07 05:18:42] Downloading XLY from stooq
+[2026-05-07 05:18:42] XLY stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:42] Downloading XLY from yahoo
+[2026-05-07 05:18:43] Downloading XLP from stooq
+[2026-05-07 05:18:44] XLP stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:44] Downloading XLP from yahoo
+[2026-05-07 05:18:44] Downloading XLE from stooq
+[2026-05-07 05:18:45] XLE stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:45] Downloading XLE from yahoo
+[2026-05-07 05:18:45] Downloading XLB from stooq
+[2026-05-07 05:18:46] XLB stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:46] Downloading XLB from yahoo
+[2026-05-07 05:18:47] Downloading XLU from stooq
+[2026-05-07 05:18:47] XLU stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:47] Downloading XLU from yahoo
+[2026-05-07 05:18:49] Downloading XLRE from stooq
+[2026-05-07 05:18:49] XLRE stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:50] Downloading XLRE from yahoo
+[2026-05-07 05:18:50] Downloading XLC from stooq
+[2026-05-07 05:18:50] XLC stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:51] Downloading XLC from yahoo
+[2026-05-07 05:18:51] Downloading SMH from stooq
+[2026-05-07 05:18:51] SMH stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:52] Downloading SMH from yahoo
+[2026-05-07 05:18:52] Downloading KRE from stooq
+[2026-05-07 05:18:53] KRE stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:53] Downloading KRE from yahoo
+[2026-05-07 05:18:53] Downloading IYT from stooq
+[2026-05-07 05:18:54] IYT stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:54] Downloading IYT from yahoo
+[2026-05-07 05:18:54] Downloading ITB from stooq
+[2026-05-07 05:18:55] ITB stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:55] Downloading ITB from yahoo
+[2026-05-07 05:18:55] Downloading XHB from stooq
+[2026-05-07 05:18:56] XHB stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:56] Downloading XHB from yahoo
+[2026-05-07 05:18:56] Downloading IBB from stooq
+[2026-05-07 05:18:57] IBB stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:57] Downloading IBB from yahoo
+[2026-05-07 05:18:57] Downloading XBI from stooq
+[2026-05-07 05:18:58] XBI stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:58] Downloading XBI from yahoo
+[2026-05-07 05:18:58] Downloading KWEB from stooq
+[2026-05-07 05:18:59] KWEB stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:18:59] Downloading KWEB from yahoo
+[2026-05-07 05:19:00] Downloading JETS from stooq
+[2026-05-07 05:19:00] JETS stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:00] Downloading JETS from yahoo
+[2026-05-07 05:19:01] Downloading OIH from stooq
+[2026-05-07 05:19:01] OIH stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:02] Downloading OIH from yahoo
+[2026-05-07 05:19:02] Downloading VEA from stooq
+[2026-05-07 05:19:03] VEA stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:03] Downloading VEA from yahoo
+[2026-05-07 05:19:03] Downloading VXUS from stooq
+[2026-05-07 05:19:04] VXUS stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:04] Downloading VXUS from yahoo
+[2026-05-07 05:19:04] Downloading EZU from stooq
+[2026-05-07 05:19:05] EZU stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:05] Downloading EZU from yahoo
+[2026-05-07 05:19:05] Downloading FEZ from stooq
+[2026-05-07 05:19:06] FEZ stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:06] Downloading FEZ from yahoo
+[2026-05-07 05:19:06] Downloading EWJ from stooq
+[2026-05-07 05:19:07] EWJ stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:07] Downloading EWJ from yahoo
+[2026-05-07 05:19:07] Downloading EWY from stooq
+[2026-05-07 05:19:08] EWY stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:08] Downloading EWY from yahoo
+[2026-05-07 05:19:09] Downloading EWZ from stooq
+[2026-05-07 05:19:09] EWZ stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:09] Downloading EWZ from yahoo
+[2026-05-07 05:19:10] Downloading EEM from stooq
+[2026-05-07 05:19:10] EEM stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:10] Downloading EEM from yahoo
+[2026-05-07 05:19:11] Downloading FXI from stooq
+[2026-05-07 05:19:11] FXI stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:12] Downloading FXI from yahoo
+[2026-05-07 05:19:12] Downloading MCHI from stooq
+[2026-05-07 05:19:12] MCHI stooq failed: ParserError: Error tokenizing data. C error: Expected 1 fields in line 6, saw 2
+
+[2026-05-07 05:19:13] Downloading MCHI from yahoo
+[2026-05-07 05:19:44] Created etf_leadership_dashboard.xlsx
+[2026-05-07 05:19:44] Done. Check output/dashboard.html and etf_leadership_dashboard.xlsx

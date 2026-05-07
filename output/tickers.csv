@@ -1,0 +1,38 @@
+﻿Ticker,Name,Group,Role
+VT,Vanguard Total World Stock ETF,Global Benchmark,Benchmark
+ACWI,iShares MSCI ACWI ETF,Global Benchmark,Benchmark
+SPY,SPDR S&P 500 ETF,US Benchmark,Benchmark
+QQQ,Invesco QQQ Trust / Nasdaq 100,US Style,Growth / Mega-cap
+IWM,iShares Russell 2000 ETF,US Style,Small-cap
+RSP,Invesco S&P 500 Equal Weight ETF,US Style,Equal-weight
+XLK,Technology Select Sector SPDR,US Sector,Growth / Technology
+XLF,Financial Select Sector SPDR,US Sector,Cyclical / Financials
+XLV,Health Care Select Sector SPDR,US Sector,Defensive / Healthcare
+XLI,Industrial Select Sector SPDR,US Sector,Cyclical / Industrials
+XLY,Consumer Discretionary Select Sector SPDR,US Sector,Cyclical / Consumer
+XLP,Consumer Staples Select Sector SPDR,US Sector,Defensive / Staples
+XLE,Energy Select Sector SPDR,US Sector,Cyclical / Energy
+XLB,Materials Select Sector SPDR,US Sector,Cyclical / Materials
+XLU,Utilities Select Sector SPDR,US Sector,Defensive / Utilities
+XLRE,Real Estate Select Sector SPDR,US Sector,Rate-sensitive / REITs
+XLC,Communication Services Select Sector SPDR,US Sector,Communication
+SMH,VanEck Semiconductor ETF,Industry,Semiconductors
+KRE,SPDR S&P Regional Banking ETF,Industry,Regional Banks
+IYT,iShares U.S. Transportation ETF,Industry,Transportation
+ITB,iShares U.S. Home Construction ETF,Industry,Homebuilders
+XHB,SPDR S&P Homebuilders ETF,Industry,Homebuilders
+IBB,iShares Biotechnology ETF,Industry,Biotech
+XBI,SPDR S&P Biotech ETF,Industry,Biotech Equal-weight
+KWEB,KraneShares CSI China Internet ETF,Industry / China,China Internet
+JETS,U.S. Global Jets ETF,Industry,Airlines
+OIH,VanEck Oil Services ETF,Industry,Oil Services
+VEA,Vanguard FTSE Developed Markets ETF,Global Region,Developed ex-US
+VXUS,Vanguard Total International Stock ETF,Global Region,Ex-US
+EZU,iShares MSCI Eurozone ETF,Global Region,Eurozone
+FEZ,SPDR EURO STOXX 50 ETF,Global Region,Eurozone Large-cap
+EWJ,iShares MSCI Japan ETF,Global Region,Japan
+EWY,iShares MSCI South Korea ETF,Global Region,Korea
+EWZ,iShares MSCI Brazil ETF,Global Region,Brazil
+EEM,iShares MSCI Emerging Markets ETF,Global Region,Emerging Markets
+FXI,iShares China Large-Cap ETF,Global Region,China Large-cap
+MCHI,iShares MSCI China ETF,Global Region,China Broad
