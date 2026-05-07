@@ -237,5 +237,170 @@
     "high_low_rule": "Period high uses max daily High; period low uses min daily Low. Worst drawdown uses each day's Low divided by prior running High.",
     "price_return_note": "This is price/OHLC analysis, not total return. Dividends are not reinvested.",
     "data_source_change": "Yahoo-only version to avoid Stooq parser errors in GitHub Actions logs."
-  }
+  },
+  "basket_methodology": {
+    "rebalance": "monthly",
+    "equal_weight": "Every available member receives equal target weight at each monthly rebalance.",
+    "capped_market_cap": "Latest Yahoo market cap is used as base weight, then single-name cap is applied and excess redistributed. This is not historical float-adjusted market cap.",
+    "synthetic_ohlc_warning": "Basket High/Low are approximations from weighted constituent High/Low returns; highs/lows are not simultaneous."
+  },
+  "baskets": [
+    {
+      "id": "RESTAURANTS",
+      "name": "Restaurants",
+      "group": "Custom Basket",
+      "members": [
+        "MCD",
+        "SBUX",
+        "CMG",
+        "YUM",
+        "DRI",
+        "TXRH",
+        "DPZ",
+        "SHAK",
+        "WING",
+        "CAVA"
+      ],
+      "methods": [
+        "equal",
+        "capped_market_cap"
+      ],
+      "cap": 0.25,
+      "min_member_coverage": 0.6,
+      "min_members": 4
+    },
+    {
+      "id": "AIRLINES",
+      "name": "Airlines",
+      "group": "Custom Basket",
+      "members": [
+        "DAL",
+        "UAL",
+        "AAL",
+        "LUV",
+        "ALK",
+        "JBLU"
+      ],
+      "methods": [
+        "equal",
+        "capped_market_cap"
+      ],
+      "cap": 0.25,
+      "min_member_coverage": 0.6,
+      "min_members": 3
+    },
+    {
+      "id": "AUTOS",
+      "name": "Autos",
+      "group": "Custom Basket",
+      "members": [
+        "GM",
+        "F",
+        "TSLA",
+        "RIVN",
+        "LCID",
+        "TM",
+        "HMC",
+        "STLA"
+      ],
+      "methods": [
+        "equal",
+        "capped_market_cap"
+      ],
+      "cap": 0.25,
+      "min_member_coverage": 0.6,
+      "min_members": 4
+    },
+    {
+      "id": "ECOMMERCE",
+      "name": "E-Commerce",
+      "group": "Custom Basket",
+      "members": [
+        "AMZN",
+        "MELI",
+        "SHOP",
+        "SE",
+        "BABA",
+        "JD",
+        "PDD",
+        "EBAY",
+        "ETSY",
+        "CPNG"
+      ],
+      "methods": [
+        "equal",
+        "capped_market_cap"
+      ],
+      "cap": 0.25,
+      "min_member_coverage": 0.6,
+      "min_members": 5
+    },
+    {
+      "id": "LUXURY",
+      "name": "Luxury and Premium Brands",
+      "group": "Custom Basket",
+      "members": [
+        "LVMUY",
+        "HESAY",
+        "PPRUY",
+        "CFRUY",
+        "BURBY",
+        "RACE",
+        "TPR",
+        "CPRI"
+      ],
+      "methods": [
+        "equal",
+        "capped_market_cap"
+      ],
+      "cap": 0.25,
+      "min_member_coverage": 0.6,
+      "min_members": 4
+    },
+    {
+      "id": "TRANSPORT",
+      "name": "Transport and Logistics",
+      "group": "Custom Basket",
+      "members": [
+        "FDX",
+        "UPS",
+        "CHRW",
+        "JBHT",
+        "XPO",
+        "ODFL",
+        "MATX",
+        "ZIM"
+      ],
+      "methods": [
+        "equal",
+        "capped_market_cap"
+      ],
+      "cap": 0.25,
+      "min_member_coverage": 0.6,
+      "min_members": 4
+    },
+    {
+      "id": "CHEMICALS",
+      "name": "Chemicals and Materials",
+      "group": "Custom Basket",
+      "members": [
+        "DOW",
+        "LYB",
+        "CE",
+        "WLK",
+        "EMN",
+        "APD",
+        "LIN",
+        "FCX",
+        "NUE"
+      ],
+      "methods": [
+        "equal",
+        "capped_market_cap"
+      ],
+      "cap": 0.25,
+      "min_member_coverage": 0.6,
+      "min_members": 5
+    }
+  ]
 }

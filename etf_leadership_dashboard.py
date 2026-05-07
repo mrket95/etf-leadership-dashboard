@@ -209,6 +209,344 @@ def get_ohlc_for_ticker(ticker: str, start_date: str, end_date: str, source_orde
     return None, status
 
 
+
+def fetch_market_caps_yahoo(tickers: List[str], timeout: int = 20) -> Dict[str, float]:
+    """Fetch latest market caps from Yahoo quote endpoint. Best effort only."""
+    out: Dict[str, float] = {}
+    if not tickers:
+        return out
+
+    # Batch in chunks to keep URL length sane.
+    headers = {"User-Agent": "Mozilla/5.0 etf-leadership-dashboard"}
+    for i in range(0, len(tickers), 40):
+        chunk = tickers[i:i+40]
+        symbols = ",".join(chunk)
+        url = f"https://query1.finance.yahoo.com/v7/finance/quote?symbols={urllib.parse.quote(symbols)}"
+        try:
+            r = requests.get(url, headers=headers, timeout=timeout)
+            r.raise_for_status()
+            data = r.json()
+            results = data.get("quoteResponse", {}).get("result", [])
+            for item in results:
+                sym = item.get("symbol")
+                mc = item.get("marketCap")
+                if sym and mc and mc > 0:
+                    out[sym.upper()] = float(mc)
+        except Exception as e:
+            log(f"Market cap fetch failed for chunk {symbols}: {type(e).__name__}: {e}")
+    return out
+
+
+def cap_weights(raw_weights: Dict[str, float], cap: float = 0.25) -> Dict[str, float]:
+    """Apply single-name cap and redistribute excess proportionally."""
+    if not raw_weights:
+        return {}
+    total = sum(max(v, 0.0) for v in raw_weights.values())
+    if total <= 0:
+        n = len(raw_weights)
+        return {k: 1.0 / n for k in raw_weights}
+
+    weights = {k: max(v, 0.0) / total for k, v in raw_weights.items()}
+    capped = {k: 0.0 for k in weights}
+    remaining = set(weights.keys())
+    remaining_weight = 1.0
+
+    # Iteratively cap overweight names.
+    while remaining:
+        rem_total = sum(weights[k] for k in remaining)
+        if rem_total <= 0:
+            equal = remaining_weight / len(remaining)
+            for k in remaining:
+                capped[k] = min(equal, cap)
+            break
+
+        changed = False
+        for k in list(remaining):
+            proposed = remaining_weight * weights[k] / rem_total
+            if proposed > cap:
+                capped[k] = cap
+                remaining_weight -= cap
+                remaining.remove(k)
+                changed = True
+        if not changed:
+            for k in remaining:
+                capped[k] = remaining_weight * weights[k] / rem_total
+            break
+
+    # Final normalize after rounding/edge cases.
+    s = sum(capped.values())
+    if s > 0:
+        capped = {k: v / s for k, v in capped.items()}
+    return capped
+
+
+def build_target_weights(
+    members: List[str],
+    method: str,
+    cap: float,
+    market_caps: Dict[str, float],
+    manual_weights: Optional[Dict[str, float]] = None,
+) -> Tuple[Dict[str, float], str]:
+    members = [m.upper() for m in members]
+    if not members:
+        return {}, "none"
+
+    if method == "equal":
+        return {m: 1.0 / len(members) for m in members}, "equal"
+
+    if method == "manual":
+        manual_weights = manual_weights or {}
+        raw = {m: float(manual_weights.get(m, 0.0)) for m in members}
+        if sum(raw.values()) <= 0:
+            return {m: 1.0 / len(members) for m in members}, "manual_missing_fallback_equal"
+        total = sum(raw.values())
+        return {m: raw[m] / total for m in members}, "manual"
+
+    if method == "capped_market_cap":
+        raw = {}
+        for m in members:
+            mc = market_caps.get(m)
+            if mc and mc > 0:
+                raw[m] = mc
+        if len(raw) < max(2, int(len(members) * 0.5)):
+            # Too few market caps to be meaningful.
+            return {m: 1.0 / len(members) for m in members}, "market_cap_missing_fallback_equal"
+        # Missing members get excluded from cap-weight target for that rebalance.
+        return cap_weights(raw, cap=cap), "capped_market_cap"
+
+    # Default fallback.
+    return {m: 1.0 / len(members) for m in members}, "unknown_fallback_equal"
+
+
+def member_return_tables(price_by_ticker: Dict[str, pd.DataFrame]) -> Dict[str, pd.DataFrame]:
+    tables = {}
+    for ticker, df in price_by_ticker.items():
+        if df is None or df.empty:
+            continue
+        x = df[["Date", "Ticker", "Open", "High", "Low", "Close"]].copy().sort_values("Date")
+        x["PrevClose"] = x["Close"].shift(1)
+        for col in ["Open", "High", "Low", "Close"]:
+            x[col + "_Ret"] = x[col] / x["PrevClose"] - 1.0
+        x = x.dropna(subset=["Close_Ret"])
+        tables[ticker.upper()] = x[["Date", "Open_Ret", "High_Ret", "Low_Ret", "Close_Ret"]]
+    return tables
+
+
+def build_synthetic_basket_ohlc(
+    basket_id: str,
+    basket_name: str,
+    members: List[str],
+    method: str,
+    member_returns: Dict[str, pd.DataFrame],
+    market_caps: Dict[str, float],
+    cap: float = 0.25,
+    min_member_coverage: float = 0.5,
+    min_members: int = 3,
+    manual_weights: Optional[Dict[str, float]] = None,
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Build synthetic basket index OHLC using daily member returns.
+
+    Rebalancing:
+    - Monthly, on the first available trading day of each month.
+    - Target weights are reset by method.
+    - Between rebalances, weights drift with close returns.
+
+    Intraday High/Low warning:
+    - Synthetic High/Low are approximate because individual constituent highs/lows are not simultaneous.
+    """
+    members = [m.upper() for m in members]
+    ret_tables = {m: member_returns[m] for m in members if m in member_returns and not member_returns[m].empty}
+    if len(ret_tables) < min_members:
+        return pd.DataFrame(), pd.DataFrame()
+
+    # Build date -> ticker return row map.
+    all_dates = sorted(set().union(*[set(df["Date"]) for df in ret_tables.values()]))
+    idx = {m: df.set_index("Date") for m, df in ret_tables.items()}
+    basket_rows = []
+    weights_rows = []
+
+    index_close = 100.0
+    current_weights: Dict[str, float] = {}
+    current_month = None
+    started = False
+
+    for date in all_dates:
+        available = []
+        day_rets = {}
+        for m, tbl in idx.items():
+            if date in tbl.index:
+                row = tbl.loc[date]
+                # In rare duplicate date cases, tbl.loc returns a DataFrame.
+                if isinstance(row, pd.DataFrame):
+                    row = row.iloc[-1]
+                vals = {
+                    "Open_Ret": row.get("Open_Ret"),
+                    "High_Ret": row.get("High_Ret"),
+                    "Low_Ret": row.get("Low_Ret"),
+                    "Close_Ret": row.get("Close_Ret"),
+                }
+                if all(pd.notna(v) for v in vals.values()):
+                    available.append(m)
+                    day_rets[m] = vals
+
+        coverage = len(available) / max(len(members), 1)
+        if len(available) < min_members or coverage < min_member_coverage:
+            continue
+
+        month_key = pd.Timestamp(date).strftime("%Y-%m")
+        needs_rebalance = (not started) or (month_key != current_month)
+
+        if needs_rebalance:
+            target_weights, source = build_target_weights(
+                available,
+                method=method,
+                cap=cap,
+                market_caps=market_caps,
+                manual_weights=manual_weights,
+            )
+            # If market cap method excludes some available names due to missing caps, okay.
+            if not target_weights:
+                continue
+            current_weights = target_weights.copy()
+            current_month = month_key
+            for m, w in sorted(current_weights.items()):
+                weights_rows.append({
+                    "Basket": basket_id,
+                    "Basket_Name": basket_name,
+                    "Method": method,
+                    "Date": pd.Timestamp(date).strftime("%Y-%m-%d"),
+                    "Ticker": m,
+                    "Weight": w,
+                    "Weight_Source": source,
+                    "Market_Cap_Used": market_caps.get(m),
+                })
+            if not started:
+                # Start the index at 100 on first valid date.
+                started = True
+                basket_rows.append({
+                    "Date": pd.Timestamp(date),
+                    "Ticker": basket_id,
+                    "Open": index_close,
+                    "High": index_close,
+                    "Low": index_close,
+                    "Close": index_close,
+                    "Volume": None,
+                    "Source": "custom_basket",
+                })
+                continue
+
+        # Renormalize current weights to names available today.
+        todays_weights = {m: w for m, w in current_weights.items() if m in day_rets}
+        s = sum(todays_weights.values())
+        if s <= 0:
+            continue
+        todays_weights = {m: w / s for m, w in todays_weights.items()}
+
+        open_ret = sum(todays_weights[m] * float(day_rets[m]["Open_Ret"]) for m in todays_weights)
+        high_ret = sum(todays_weights[m] * float(day_rets[m]["High_Ret"]) for m in todays_weights)
+        low_ret = sum(todays_weights[m] * float(day_rets[m]["Low_Ret"]) for m in todays_weights)
+        close_ret = sum(todays_weights[m] * float(day_rets[m]["Close_Ret"]) for m in todays_weights)
+
+        prev_close = index_close
+        basket_open = prev_close * (1.0 + open_ret)
+        basket_high = prev_close * (1.0 + high_ret)
+        basket_low = prev_close * (1.0 + low_ret)
+        basket_close = prev_close * (1.0 + close_ret)
+
+        # Make OHLC sane even though synthetic high/low is approximate.
+        hi = max(basket_high, basket_open, basket_close)
+        lo = min(basket_low, basket_open, basket_close)
+
+        basket_rows.append({
+            "Date": pd.Timestamp(date),
+            "Ticker": basket_id,
+            "Open": basket_open,
+            "High": hi,
+            "Low": lo,
+            "Close": basket_close,
+            "Volume": None,
+            "Source": "custom_basket",
+        })
+
+        # Let weights drift by close return until next rebalance.
+        drift = {}
+        for m, w in todays_weights.items():
+            drift[m] = w * (1.0 + float(day_rets[m]["Close_Ret"]))
+        drift_sum = sum(drift.values())
+        if drift_sum > 0:
+            current_weights = {m: v / drift_sum for m, v in drift.items()}
+
+        index_close = basket_close
+
+    return pd.DataFrame(basket_rows), pd.DataFrame(weights_rows)
+
+
+def build_custom_baskets(
+    basket_defs: List[dict],
+    price_by_ticker: Dict[str, pd.DataFrame],
+    market_caps: Dict[str, float],
+) -> Tuple[List[pd.DataFrame], List[dict], pd.DataFrame]:
+    member_returns = member_return_tables(price_by_ticker)
+    basket_frames: List[pd.DataFrame] = []
+    meta_rows: List[dict] = []
+    all_weight_rows = []
+
+    for b in basket_defs:
+        base_id = b["id"].upper()
+        name = b.get("name", base_id)
+        members = [m.upper() for m in b.get("members", [])]
+        cap = float(b.get("cap", 0.25))
+        min_cov = float(b.get("min_member_coverage", 0.5))
+        min_members = int(b.get("min_members", 3))
+        manual_weights = {k.upper(): v for k, v in b.get("manual_weights", {}).items()}
+        methods = b.get("methods", ["equal", "capped_market_cap"])
+
+        for method in methods:
+            if method == "equal":
+                suffix = "EQ"
+                role = "Custom basket · Equal weight · Monthly rebalance"
+            elif method == "capped_market_cap":
+                suffix = "CAP"
+                role = f"Custom basket · Capped market-cap weight · cap {cap:.0%} · Monthly rebalance"
+            elif method == "manual":
+                suffix = "MAN"
+                role = "Custom basket · Manual weight · Monthly rebalance"
+            else:
+                suffix = method.upper()
+                role = f"Custom basket · {method} · Monthly rebalance"
+
+            basket_ticker = f"{base_id}_{suffix}"
+            log(f"Building custom basket {basket_ticker}: {members}")
+            df, weights = build_synthetic_basket_ohlc(
+                basket_id=basket_ticker,
+                basket_name=name,
+                members=members,
+                method=method,
+                member_returns=member_returns,
+                market_caps=market_caps,
+                cap=cap,
+                min_member_coverage=min_cov,
+                min_members=min_members,
+                manual_weights=manual_weights,
+            )
+            if df is not None and not df.empty:
+                basket_frames.append(df)
+                meta_rows.append({
+                    "Ticker": basket_ticker,
+                    "Name": f"{name} ({suffix})",
+                    "Group": b.get("group", "Custom Basket"),
+                    "Role": role,
+                })
+                if weights is not None and not weights.empty:
+                    all_weight_rows.append(weights)
+            else:
+                log(f"Custom basket {basket_ticker} could not be built. Check member price availability.")
+
+    weights_df = pd.concat(all_weight_rows, ignore_index=True) if all_weight_rows else pd.DataFrame()
+    return basket_frames, meta_rows, weights_df
+
+
 def compute_period_summary(ohlc: pd.DataFrame, tickers_meta: pd.DataFrame, start: str, end: str, benchmark: str) -> pd.DataFrame:
     df = ohlc[(ohlc["Date"] >= pd.Timestamp(start)) & (ohlc["Date"] <= pd.Timestamp(end))].copy()
     rows = []
@@ -347,7 +685,8 @@ def build_dashboard_html(ohlc: pd.DataFrame, tickers_meta: pd.DataFrame, status:
   <div class="metric-note">
     <b>중요:</b> 기간 내 최고점은 <b>daily High의 최대값</b>, 최저점은 <b>daily Low의 최소값</b>으로 계산한다.
     Worst drawdown은 매일의 Low를 그 이전까지의 running High와 비교한다. 따라서 종가 기준이 아니다.
-    단, 라인 차트의 기본 모드는 가독성을 위해 normalized Close를 사용한다.
+    단, 라인 차트의 기본 모드는 가독성을 위해 normalized Close를 사용한다.<br>
+    Custom Basket의 High/Low는 구성종목의 daily High/Low 수익률을 가중합한 근사치다. 종목별 장중 고점·저점 시간이 다르기 때문에 공식 ETF OHLC처럼 실제 체결가가 아니다.
   </div>
 
   <div class="controls">
@@ -405,6 +744,7 @@ def build_dashboard_html(ohlc: pd.DataFrame, tickers_meta: pd.DataFrame, status:
         <button onclick="showGroup('US Sector')">US sectors</button>
         <button onclick="showGroup('Industry')">Industries</button>
         <button onclick="showGroup('Global Region')">Regions</button>
+        <button onclick="showGroup('Custom Basket')">Custom baskets</button>
         <button onclick="showRoleContains('Defensive')">Defensive</button>
         <button onclick="showRoleContains('Cyclical')">Cyclicals</button>
       </div>
@@ -728,7 +1068,7 @@ updateDashboard();
 </html>"""
 
 
-def write_excel(ohlc: pd.DataFrame, meta: pd.DataFrame, status: pd.DataFrame, summary: pd.DataFrame) -> None:
+def write_excel(ohlc: pd.DataFrame, meta: pd.DataFrame, status: pd.DataFrame, summary: pd.DataFrame, basket_weights: Optional[pd.DataFrame] = None) -> None:
     try:
         from openpyxl import Workbook
         from openpyxl.utils.dataframe import dataframe_to_rows
@@ -759,6 +1099,13 @@ def write_excel(ohlc: pd.DataFrame, meta: pd.DataFrame, status: pd.DataFrame, su
     for r in dataframe_to_rows(status, index=False, header=True):
         ws4.append(r)
 
+    sheets_to_style_extra = []
+    if basket_weights is not None and not basket_weights.empty:
+        ws_bw = wb.create_sheet("Basket_Weights")
+        for r in dataframe_to_rows(basket_weights, index=False, header=True):
+            ws_bw.append(r)
+        sheets_to_style_extra.append(ws_bw)
+
     ws5 = wb.create_sheet("Prices_OHLC")
     # Keep full long data; 80k rows is okay for these tickers/timeframe.
     out = ohlc.copy()
@@ -770,7 +1117,7 @@ def write_excel(ohlc: pd.DataFrame, meta: pd.DataFrame, status: pd.DataFrame, su
     thin = Side(style="thin", color="CCCCCC")
     border = Border(left=thin, right=thin, top=thin, bottom=thin)
 
-    for sheet in [ws2, ws3, ws4, ws5]:
+    for sheet in [ws2, ws3, ws4, ws5] + sheets_to_style_extra:
         for cell in sheet[1]:
             cell.font = Font(bold=True)
             cell.fill = header_fill
@@ -832,18 +1179,55 @@ def main() -> int:
     meta_rows = []
     all_frames = []
     statuses = []
+    price_by_ticker: Dict[str, pd.DataFrame] = {}
+
+    base_tickers = []
     for item in config["tickers"]:
         ticker = item["ticker"].upper()
+        base_tickers.append(ticker)
         meta_rows.append({
             "Ticker": ticker,
             "Name": item.get("name", ""),
             "Group": item.get("group", ""),
             "Role": item.get("role", ""),
         })
+
+    basket_defs = config.get("baskets", [])
+    basket_member_tickers = []
+    for b in basket_defs:
+        for m in b.get("members", []):
+            basket_member_tickers.append(m.upper())
+
+    all_download_tickers = []
+    for t in base_tickers + basket_member_tickers:
+        if t not in all_download_tickers:
+            all_download_tickers.append(t)
+
+    for ticker in all_download_tickers:
         df, st = get_ohlc_for_ticker(ticker, start_date, end_date, source_order)
         statuses.append(st)
         if df is not None and not df.empty:
-            all_frames.append(df)
+            price_by_ticker[ticker] = df
+            if ticker in base_tickers:
+                all_frames.append(df)
+
+    market_caps = {}
+    # Manual market caps from config override fetched values.
+    for b in basket_defs:
+        for k, v in b.get("market_caps", {}).items():
+            try:
+                market_caps[k.upper()] = float(v)
+            except Exception:
+                pass
+
+    missing_for_caps = sorted(set(basket_member_tickers) - set(market_caps.keys()))
+    fetched_caps = fetch_market_caps_yahoo(missing_for_caps)
+    market_caps.update(fetched_caps)
+
+    basket_frames, basket_meta_rows, basket_weights = build_custom_baskets(basket_defs, price_by_ticker, market_caps)
+    if basket_frames:
+        all_frames.extend(basket_frames)
+        meta_rows.extend(basket_meta_rows)
 
     meta = pd.DataFrame(meta_rows)
     status = pd.DataFrame(statuses)
@@ -861,6 +1245,17 @@ def main() -> int:
     long_out.to_csv(OUTPUT / "prices_ohlc.csv", index=False, encoding="utf-8-sig")
     status.to_csv(OUTPUT / "download_status.csv", index=False, encoding="utf-8-sig")
     meta.to_csv(OUTPUT / "tickers.csv", index=False, encoding="utf-8-sig")
+    if 'basket_weights' in locals() and basket_weights is not None and not basket_weights.empty:
+        basket_weights.to_csv(OUTPUT / "basket_weights.csv", index=False, encoding="utf-8-sig")
+    if price_by_ticker:
+        member_frames = []
+        for t, df0 in price_by_ticker.items():
+            if t not in base_tickers and df0 is not None and not df0.empty:
+                member_frames.append(df0)
+        if member_frames:
+            member_prices = pd.concat(member_frames, ignore_index=True)
+            member_prices["Date"] = pd.to_datetime(member_prices["Date"]).dt.strftime("%Y-%m-%d")
+            member_prices.to_csv(OUTPUT / "basket_member_prices_ohlc.csv", index=False, encoding="utf-8-sig")
 
     max_date = pd.to_datetime(ohlc["Date"]).max()
     default_start = (max_date - pd.DateOffset(months=int(config.get("dashboard", {}).get("default_months", 6)))).strftime("%Y-%m-%d")
@@ -884,13 +1279,15 @@ def main() -> int:
             "output/default_period_summary.csv",
             "output/download_status.csv",
             "output/dashboard.html",
+            "output/basket_weights.csv",
+            "output/basket_member_prices_ohlc.csv",
             "etf_leadership_dashboard.xlsx",
         ],
         "high_low_rule": config.get("notes", {}).get("high_low_rule", ""),
     }
     (OUTPUT / "manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    write_excel(ohlc, meta, status, summary)
+    write_excel(ohlc, meta, status, summary, basket_weights if 'basket_weights' in locals() else None)
     log("Done. Check output/dashboard.html and etf_leadership_dashboard.xlsx")
     return 0
 
