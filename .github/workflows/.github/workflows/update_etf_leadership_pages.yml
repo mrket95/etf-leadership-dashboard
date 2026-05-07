@@ -1,0 +1,66 @@
+name: Update ETF Leadership Dashboard and Deploy Pages
+
+on:
+  schedule:
+    - cron: "0 3 * * *"  # Every day at 12:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: "etf-leadership-pages"
+  cancel-in-progress: false
+
+jobs:
+  update-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Run ETF leadership dashboard builder
+        run: python etf_leadership_dashboard.py --config config.json
+
+      - name: Copy Excel into Pages output
+        run: |
+          if [ -f etf_leadership_dashboard.xlsx ]; then
+            cp etf_leadership_dashboard.xlsx output/etf_leadership_dashboard.xlsx
+          fi
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: etf-leadership-output
+          path: |
+            output/
+            etf_leadership_dashboard.xlsx
+          if-no-files-found: warn
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
