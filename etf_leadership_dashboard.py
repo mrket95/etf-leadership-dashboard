@@ -174,6 +174,7 @@ def get_ohlc_for_ticker(ticker: str, start_date: str, end_date: str, source_orde
                 raise ValueError(f"Unknown source {source}")
             if valid_ohlc(df):
                 df.to_csv(cache_path, index=False)
+                log(f"{ticker} downloaded successfully from {source}: {len(df)} rows")
                 status.update(
                     Status="OK",
                     SourceUsed=source,

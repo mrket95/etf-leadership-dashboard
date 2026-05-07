@@ -2,7 +2,6 @@
   "benchmark": "VT",
   "start_date": "2018-01-01",
   "data_source_order": [
-    "stooq",
     "yahoo"
   ],
   "tickers": [
@@ -236,6 +235,7 @@
   },
   "notes": {
     "high_low_rule": "Period high uses max daily High; period low uses min daily Low. Worst drawdown uses each day's Low divided by prior running High.",
-    "price_return_note": "This is price/OHLC analysis, not total return. Dividends are not reinvested."
+    "price_return_note": "This is price/OHLC analysis, not total return. Dividends are not reinvested.",
+    "data_source_change": "Yahoo-only version to avoid Stooq parser errors in GitHub Actions logs."
   }
 }
