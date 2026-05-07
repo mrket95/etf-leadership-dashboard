@@ -337,6 +337,8 @@ def build_dashboard_html(ohlc: pd.DataFrame, tickers_meta: pd.DataFrame, status:
     .metric-note {{ padding:10px; background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; margin:12px 0; font-size:13px; }}
     .good {{ color:#047857; font-weight:600; }}
     .bad {{ color:#B91C1C; font-weight:600; }}
+    .yes {{ color:#047857; font-weight:700; }}
+    .no {{ color:#B91C1C; font-weight:700; }}
   </style>
 </head>
 <body>
@@ -370,12 +372,21 @@ def build_dashboard_html(ohlc: pd.DataFrame, tickers_meta: pd.DataFrame, status:
       </select>
     </div>
     <div class="control-block">
-      <label>Table sort</label>
-      <select id="sortMode">
-        <option value="defense">Best defense: least worst drawdown</option>
-        <option value="return">Best close return</option>
-        <option value="relative">Best vs benchmark</option>
-        <option value="damage">Most damaged: worst drawdown</option>
+      <label>Table sort metric</label>
+      <select id="sortMetric">
+        <option value="Worst_Drawdown">Worst DD</option>
+        <option value="High_to_Low_Range">High→Low Range</option>
+        <option value="Rebound_From_Low">Rebound from Low</option>
+        <option value="Current_vs_High">Current vs High</option>
+        <option value="Close_Return">Close Return</option>
+        <option value="Relative_Return">Vs Bench</option>
+      </select>
+    </div>
+    <div class="control-block">
+      <label>Sort direction</label>
+      <select id="sortDirection">
+        <option value="desc">내림차순: 큰 값 먼저</option>
+        <option value="asc">오름차순: 작은 값 먼저</option>
       </select>
     </div>
     <button onclick="updateDashboard()">Update</button>
@@ -605,12 +616,22 @@ function setFullRange() {{
 }}
 
 function renderSummary(metrics) {{
-  const sortMode = document.getElementById("sortMode").value;
+  const sortMetric = document.getElementById("sortMetric").value;
+  const sortDirection = document.getElementById("sortDirection").value;
   const arr = [...metrics];
-  if (sortMode === "defense") arr.sort((a,b) => b.Worst_Drawdown - a.Worst_Drawdown);
-  if (sortMode === "damage") arr.sort((a,b) => a.Worst_Drawdown - b.Worst_Drawdown);
-  if (sortMode === "return") arr.sort((a,b) => b.Close_Return - a.Close_Return);
-  if (sortMode === "relative") arr.sort((a,b) => b.Relative_Return - a.Relative_Return);
+
+  arr.sort((a,b) => {{
+    const av = a[sortMetric];
+    const bv = b[sortMetric];
+
+    const aMissing = (av === null || av === undefined || Number.isNaN(av));
+    const bMissing = (bv === null || bv === undefined || Number.isNaN(bv));
+    if (aMissing && bMissing) return 0;
+    if (aMissing) return 1;
+    if (bMissing) return -1;
+
+    return sortDirection === "asc" ? av - bv : bv - av;
+  }});
 
   let html = "<table><thead><tr>" +
     "<th>Rank</th><th>Ticker</th><th>Group</th><th>Role</th>" +
@@ -637,7 +658,7 @@ function renderSummary(metrics) {{
       <td>${{fmtPct(m.High_to_Low_Range)}}</td>
       <td>${{fmtPct(m.Rebound_From_Low)}}</td>
       <td>${{fmtPct(m.Current_vs_High)}}</td>
-      <td>${{m.Half_Recovered ? "Yes" : "No"}}</td>
+      <td>${{m.Half_Recovered ? '<span class="yes">Yes</span>' : '<span class="no">No</span>'}}</td>
     </tr>`;
   }});
   html += "</tbody></table>";
@@ -699,6 +720,8 @@ function updateDashboard() {{
 }}
 
 populateControls();
+document.getElementById("sortMetric").addEventListener("change", updateDashboard);
+document.getElementById("sortDirection").addEventListener("change", updateDashboard);
 updateDashboard();
 </script>
 </body>
