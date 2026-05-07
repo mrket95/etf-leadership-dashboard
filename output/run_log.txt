@@ -1,76 +1,76 @@
-[2026-05-07 05:34:59] Downloading VT from yahoo
-[2026-05-07 05:34:59] VT downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:34:59] Downloading ACWI from yahoo
-[2026-05-07 05:34:59] ACWI downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:34:59] Downloading SPY from yahoo
-[2026-05-07 05:35:00] SPY downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:00] Downloading QQQ from yahoo
-[2026-05-07 05:35:00] QQQ downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:00] Downloading IWM from yahoo
-[2026-05-07 05:35:00] IWM downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:00] Downloading RSP from yahoo
-[2026-05-07 05:35:00] RSP downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:00] Downloading XLK from yahoo
-[2026-05-07 05:35:00] XLK downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:00] Downloading XLF from yahoo
-[2026-05-07 05:35:00] XLF downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:00] Downloading XLV from yahoo
-[2026-05-07 05:35:01] XLV downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:01] Downloading XLI from yahoo
-[2026-05-07 05:35:01] XLI downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:01] Downloading XLY from yahoo
-[2026-05-07 05:35:01] XLY downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:01] Downloading XLP from yahoo
-[2026-05-07 05:35:01] XLP downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:01] Downloading XLE from yahoo
-[2026-05-07 05:35:01] XLE downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:01] Downloading XLB from yahoo
-[2026-05-07 05:35:02] XLB downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:02] Downloading XLU from yahoo
-[2026-05-07 05:35:02] XLU downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:02] Downloading XLRE from yahoo
-[2026-05-07 05:35:02] XLRE downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:02] Downloading XLC from yahoo
-[2026-05-07 05:35:02] XLC downloaded successfully from yahoo: 1981 rows
-[2026-05-07 05:35:02] Downloading SMH from yahoo
-[2026-05-07 05:35:02] SMH downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:02] Downloading KRE from yahoo
-[2026-05-07 05:35:02] KRE downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:02] Downloading IYT from yahoo
-[2026-05-07 05:35:03] IYT downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:03] Downloading ITB from yahoo
-[2026-05-07 05:35:03] ITB downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:03] Downloading XHB from yahoo
-[2026-05-07 05:35:03] XHB downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:03] Downloading IBB from yahoo
-[2026-05-07 05:35:03] IBB downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:03] Downloading XBI from yahoo
-[2026-05-07 05:35:03] XBI downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:03] Downloading KWEB from yahoo
-[2026-05-07 05:35:03] KWEB downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:03] Downloading JETS from yahoo
-[2026-05-07 05:35:03] JETS downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:03] Downloading OIH from yahoo
-[2026-05-07 05:35:04] OIH downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:04] Downloading VEA from yahoo
-[2026-05-07 05:35:04] VEA downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:04] Downloading VXUS from yahoo
-[2026-05-07 05:35:04] VXUS downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:04] Downloading EZU from yahoo
-[2026-05-07 05:35:04] EZU downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:04] Downloading FEZ from yahoo
-[2026-05-07 05:35:04] FEZ downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:04] Downloading EWJ from yahoo
-[2026-05-07 05:35:04] EWJ downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:04] Downloading EWY from yahoo
-[2026-05-07 05:35:05] EWY downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:05] Downloading EWZ from yahoo
-[2026-05-07 05:35:05] EWZ downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:05] Downloading EEM from yahoo
-[2026-05-07 05:35:05] EEM downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:05] Downloading FXI from yahoo
-[2026-05-07 05:35:05] FXI downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:05] Downloading MCHI from yahoo
-[2026-05-07 05:35:05] MCHI downloaded successfully from yahoo: 2097 rows
-[2026-05-07 05:35:36] Created etf_leadership_dashboard.xlsx
-[2026-05-07 05:35:36] Done. Check output/dashboard.html and etf_leadership_dashboard.xlsx
+[2026-05-07 05:52:02] Downloading VT from yahoo
+[2026-05-07 05:52:02] VT downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:02] Downloading ACWI from yahoo
+[2026-05-07 05:52:02] ACWI downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:02] Downloading SPY from yahoo
+[2026-05-07 05:52:03] SPY downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:03] Downloading QQQ from yahoo
+[2026-05-07 05:52:03] QQQ downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:03] Downloading IWM from yahoo
+[2026-05-07 05:52:03] IWM downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:03] Downloading RSP from yahoo
+[2026-05-07 05:52:03] RSP downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:03] Downloading XLK from yahoo
+[2026-05-07 05:52:03] XLK downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:03] Downloading XLF from yahoo
+[2026-05-07 05:52:03] XLF downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:03] Downloading XLV from yahoo
+[2026-05-07 05:52:03] XLV downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:03] Downloading XLI from yahoo
+[2026-05-07 05:52:04] XLI downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:04] Downloading XLY from yahoo
+[2026-05-07 05:52:04] XLY downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:04] Downloading XLP from yahoo
+[2026-05-07 05:52:04] XLP downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:04] Downloading XLE from yahoo
+[2026-05-07 05:52:04] XLE downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:04] Downloading XLB from yahoo
+[2026-05-07 05:52:04] XLB downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:04] Downloading XLU from yahoo
+[2026-05-07 05:52:04] XLU downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:04] Downloading XLRE from yahoo
+[2026-05-07 05:52:05] XLRE downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:05] Downloading XLC from yahoo
+[2026-05-07 05:52:05] XLC downloaded successfully from yahoo: 1981 rows
+[2026-05-07 05:52:05] Downloading SMH from yahoo
+[2026-05-07 05:52:05] SMH downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:05] Downloading KRE from yahoo
+[2026-05-07 05:52:05] KRE downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:05] Downloading IYT from yahoo
+[2026-05-07 05:52:05] IYT downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:05] Downloading ITB from yahoo
+[2026-05-07 05:52:05] ITB downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:05] Downloading XHB from yahoo
+[2026-05-07 05:52:05] XHB downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:05] Downloading IBB from yahoo
+[2026-05-07 05:52:05] IBB downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:05] Downloading XBI from yahoo
+[2026-05-07 05:52:06] XBI downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:06] Downloading KWEB from yahoo
+[2026-05-07 05:52:06] KWEB downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:06] Downloading JETS from yahoo
+[2026-05-07 05:52:06] JETS downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:06] Downloading OIH from yahoo
+[2026-05-07 05:52:06] OIH downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:06] Downloading VEA from yahoo
+[2026-05-07 05:52:06] VEA downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:06] Downloading VXUS from yahoo
+[2026-05-07 05:52:07] VXUS downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:07] Downloading EZU from yahoo
+[2026-05-07 05:52:07] EZU downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:07] Downloading FEZ from yahoo
+[2026-05-07 05:52:07] FEZ downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:07] Downloading EWJ from yahoo
+[2026-05-07 05:52:07] EWJ downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:07] Downloading EWY from yahoo
+[2026-05-07 05:52:07] EWY downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:07] Downloading EWZ from yahoo
+[2026-05-07 05:52:07] EWZ downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:07] Downloading EEM from yahoo
+[2026-05-07 05:52:07] EEM downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:07] Downloading FXI from yahoo
+[2026-05-07 05:52:08] FXI downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:08] Downloading MCHI from yahoo
+[2026-05-07 05:52:08] MCHI downloaded successfully from yahoo: 2097 rows
+[2026-05-07 05:52:38] Created etf_leadership_dashboard.xlsx
+[2026-05-07 05:52:38] Done. Check output/dashboard.html and etf_leadership_dashboard.xlsx
