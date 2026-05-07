@@ -870,6 +870,7 @@ def main() -> int:
 
     html = build_dashboard_html(ohlc[["Date","Ticker","Open","High","Low","Close","Volume","Source"]], meta, status, config)
     (OUTPUT / "dashboard.html").write_text(html, encoding="utf-8")
+    (OUTPUT / "index.html").write_text(html, encoding="utf-8")
 
     # Simple machine-readable manifest
     manifest = {
