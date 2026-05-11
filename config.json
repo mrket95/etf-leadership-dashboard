@@ -226,6 +226,12 @@
       "name": "iShares MSCI China ETF",
       "group": "Global Region",
       "role": "China Broad"
+    },
+    {
+      "ticker": "MU",
+      "name": "Micron Technology",
+      "group": "Single Stock",
+      "role": "Memory semiconductor benchmark"
     }
   ],
   "dashboard": {
@@ -236,7 +242,9 @@
   "notes": {
     "high_low_rule": "Period high uses max daily High; period low uses min daily Low. Worst drawdown uses each day's Low divided by prior running High.",
     "price_return_note": "This is price/OHLC analysis, not total return. Dividends are not reinvested.",
-    "data_source_change": "Yahoo-only version to avoid Stooq parser errors in GitHub Actions logs."
+    "data_source_change": "Yahoo-only version to avoid Stooq parser errors in GitHub Actions logs.",
+    "korea_semis_vs_mu": "KOREA_SEMIS_EQ is a synthetic equal-weight basket of selected Korea-listed semiconductor stocks. Use benchmark MU and Chart mode Relative strength to visualize Korea Semis vs Micron.",
+    "korea_basket_warning": "Constituents are a user-editable proxy basket, not an official index. Korean tickers use Yahoo suffixes .KS/.KQ."
   },
   "basket_methodology": {
     "rebalance": "monthly",
@@ -245,6 +253,33 @@
     "synthetic_ohlc_warning": "Basket High/Low are approximations from weighted constituent High/Low returns; highs/lows are not simultaneous."
   },
   "baskets": [
+    {
+      "id": "KOREA_SEMIS",
+      "name": "Korea Semiconductors Simple Average",
+      "group": "Custom Basket",
+      "members": [
+        "005930.KS",
+        "000660.KS",
+        "042700.KS",
+        "000990.KS",
+        "058470.KQ",
+        "095340.KQ",
+        "240810.KQ",
+        "036930.KQ",
+        "039030.KQ",
+        "319660.KQ",
+        "067310.KQ",
+        "036540.KQ",
+        "403870.KQ",
+        "357780.KQ"
+      ],
+      "methods": [
+        "equal"
+      ],
+      "cap": 0.25,
+      "min_member_coverage": 0.5,
+      "min_members": 5
+    },
     {
       "id": "RESTAURANTS",
       "name": "Restaurants",

@@ -686,7 +686,8 @@ def build_dashboard_html(ohlc: pd.DataFrame, tickers_meta: pd.DataFrame, status:
     <b>중요:</b> 기간 내 최고점은 <b>daily High의 최대값</b>, 최저점은 <b>daily Low의 최소값</b>으로 계산한다.
     Worst drawdown은 매일의 Low를 그 이전까지의 running High와 비교한다. 따라서 종가 기준이 아니다.
     단, 라인 차트의 기본 모드는 가독성을 위해 normalized Close를 사용한다.<br>
-    Custom Basket의 High/Low는 구성종목의 daily High/Low 수익률을 가중합한 근사치다. 종목별 장중 고점·저점 시간이 다르기 때문에 공식 ETF OHLC처럼 실제 체결가가 아니다.
+    Custom Basket의 High/Low는 구성종목의 daily High/Low 수익률을 가중합한 근사치다. 종목별 장중 고점·저점 시간이 다르기 때문에 공식 ETF OHLC처럼 실제 체결가가 아니다.<br>
+    <b>Korea Semi vs MU:</b> 왼쪽 버튼을 누르면 Benchmark가 MU로 바뀌고 KOREA_SEMIS_EQ/MU 상대강도 흐름을 볼 수 있다. 100 이상으로 상승하면 한국 반도체 바스켓이 MU 대비 강해지는 것이다.
   </div>
 
   <div class="controls">
@@ -745,6 +746,7 @@ def build_dashboard_html(ohlc: pd.DataFrame, tickers_meta: pd.DataFrame, status:
         <button onclick="showGroup('Industry')">Industries</button>
         <button onclick="showGroup('Global Region')">Regions</button>
         <button onclick="showGroup('Custom Basket')">Custom baskets</button>
+        <button onclick="showKoreaSemiVsMU()">Korea Semi vs MU</button>
         <button onclick="showRoleContains('Defensive')">Defensive</button>
         <button onclick="showRoleContains('Cyclical')">Cyclicals</button>
       </div>
@@ -935,6 +937,18 @@ function showGroup(groupName) {{
 function showRoleContains(text) {{
   for (const m of META) visible[m.Ticker] = (m.Role || "").includes(text);
   syncChecks(); updateDashboard();
+}}
+
+function showKoreaSemiVsMU() {{
+  for (const m of META) visible[m.Ticker] = false;
+  if (visible.hasOwnProperty("MU")) visible["MU"] = true;
+  if (visible.hasOwnProperty("KOREA_SEMIS_EQ")) visible["KOREA_SEMIS_EQ"] = true;
+  const bench = document.getElementById("benchmarkSelect");
+  if ([...bench.options].some(o => o.value === "MU")) bench.value = "MU";
+  const mode = document.getElementById("chartMode");
+  mode.value = "relative_strength";
+  syncChecks();
+  updateDashboard();
 }}
 function syncChecks() {{
   for (const t in visible) {{
